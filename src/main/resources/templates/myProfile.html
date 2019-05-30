@@ -7,7 +7,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    <title>My Scripts: SUSTC</title>
+    <title>My Profile</title>
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin"
           rel="stylesheet" type="text/css">
@@ -128,8 +128,27 @@
     <div class="row">
         <!-- Results -->
         <div class="col-md-6 col-md-offset-3">
-            <div class="panel clearfix text-default">
-                <div class="col-md-12" th:each="each:${userScripts}">
+            <div class="panel clearfix text-xl-center">
+
+                <div class="col-md-9">
+                    <div class="box-row">
+                        <div class="box-cell p-x-8 p-y-3">
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Full Name: '+${user.fullName}"></a>
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Username: '+${user.username}"></a>
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Organization: '+${user.organization}"></a>
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Phone Number: '+${user.phone}"></a>
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'E-mail: '+${user.mail}"></a>
+                            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'User Type: '+${user.type.toString()}"></a>
+
+                            <a href="/update">
+                                <button type="button" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Update My Profile</button>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="col-md-12" th:each="each:${userScripts}">
                     <div class="box">
                         <hr size="6" width="100%" align="left" class="bg-warning"
                             th:style="${each.type.type_id == 1 ? 'display:block' : 'display:none'}">
@@ -143,9 +162,9 @@
                             th:style="${each.type.type_id == 5 ? 'display:block' : 'display:none'}">
                         <div class="col-md-9">
                             <div class="box-row">
-                                <div class="box-cell p-x-4 p-y-3">
+                                <div class="box-cell p-x-4 p-y-3">-->
                                     <!--<i class="box-bg-icon middle left font-size-52 ion-android-done"></i>-->
-                                    <a class="pull-xs-left font-weight-semibold font-size-24" th:text="${each.name}"
+                                    <!--<a class="pull-xs-left font-weight-semibold font-size-24" th:text="${each.name}"
                                        th:href="@{'/info?sid=' + ${each.id}}">
                                         Script 1
                                     </a>
@@ -161,7 +180,7 @@
                             </div>
                         </div>
 
-                     
+
                         <div class="col-md-3">
                             <br>
                             <button type="button" class="btn btn-outline" style="width: 80px" th:onclick="'javascript:window.location.href=\'/edit?sid=' + ${each.id} + '\'' ">Edit</button>
@@ -172,7 +191,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- / Results -->
     </div>
 
@@ -181,7 +200,7 @@
 <script th:inline="javascript">
     function deleteScript(id) {
         if (confirm("Are you sure to delete?") === true) {
-            delUrl = "/myscripts/delete?sid=" + id;
+            delUrl = "/myProfile/delete?sid=" + id;
             window.location.href = delUrl;
         }
     }

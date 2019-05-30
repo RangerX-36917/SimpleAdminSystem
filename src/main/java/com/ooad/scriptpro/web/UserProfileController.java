@@ -4,7 +4,6 @@ import com.ooad.scriptpro.model.Script;
 import com.ooad.scriptpro.model.User;
 import com.ooad.scriptpro.service.ScriptService;
 import com.ooad.scriptpro.service.UserService;
-import org.hibernate.annotations.Proxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,37 +14,46 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
-public class UserScriptController {
+public class UserProfileController {
     @Autowired
     ScriptService scriptService;
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/myscripts")
-    public String scriptController(Model model,
-                                   HttpSession httpSession) {
+    @GetMapping(value = "/myProfile")
+    public String profileController(Model model,
+                                    HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
-        List<Script> userScripts = userService.getUserScripts(user);
-        System.out.println("Read user scripts");
-        model.addAttribute("userScripts", userScripts);
+        //List<Script> userScripts = userService.getUserScripts(user);
+        //System.out.println("Read user scripts");
+        //model.addAttribute("userScripts", userScripts);
         model.addAttribute("user",user);
-        return "myscripts";
+        return "myProfile";
     }
 
-    @GetMapping(value = "/myscripts/delete")
+    @GetMapping(value = "/myProfile/delete")
     public String deleteScriptController(Model model,
                                          HttpSession httpSession,
                                          @RequestParam long sid) {
         User user = (User) httpSession.getAttribute("user");
+        /*
         List<Script> userScripts = userService.getUserScripts(user);
         for(Script s : userScripts){
             if(s.getId() == sid){
                 scriptService.deleteById(sid);
                 break;
             }
-        }
+        }*/
+
+
         //model.addAttribute("userScripts", userScripts);
-        //model.addAttribute("user",user);
+        model.addAttribute("user",user);
         return "redirect:/myscripts";
+    }
+    @GetMapping(value = {"/update"})
+    public String update(HttpSession httpSession,
+                         Model model) {
+        model.addAttribute("user", httpSession.getAttribute("user"));
+        return "update";
     }
 }

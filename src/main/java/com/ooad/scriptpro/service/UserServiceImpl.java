@@ -44,11 +44,15 @@ public class UserServiceImpl implements UserService{
         userRepository.deleteUserByUsername(username);
     }
 
+    @Override
+    public void updateUser(User user) {
+        userRepository.saveAndFlush(user);
+    }
 
 
     @Override
-    public List<Script> getUserScripts(User user) {
-
-        return new ArrayList<>(scriptRepository.findScriptsByAuthor(user.getUsername()));
+    public List<User> getUsersByOrg(String org) {
+        List<User> users = userRepository.findAllByOrOrganization(org);
+        return users;
     }
 }

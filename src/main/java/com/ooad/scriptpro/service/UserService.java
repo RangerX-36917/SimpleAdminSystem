@@ -13,7 +13,7 @@ public interface UserService {
 
     void deleteUserByID(long id);
     void deleteUserByUsername(String username);
-
-    List<Script> getUserScripts(User user);
+    void updateUser(User user);
+    List<User> getUsersByOrg(String org);
 
 }

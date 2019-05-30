@@ -6,12 +6,14 @@ import com.ooad.scriptpro.service.WebSecurityConfig;
 import com.ooad.scriptpro.service.auth.LoginService;
 import com.ooad.scriptpro.service.auth.SignupService;
 import javassist.tools.web.Webserver;
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -74,22 +76,33 @@ public class UserController {
         session.removeAttribute(WebSecurityConfig.SESSION_KEY);
         return "redirect:/index";
     }
+
     @PostMapping(value = {"/userSignup"})
     public String signup(@RequestParam String fullName,
                          @RequestParam String email,
                          @RequestParam String userName,
                          @RequestParam String password,
+                         @RequestParam String phoneNum,
+                         @RequestParam String organization,
+                         @RequestParam String type,
                          HttpSession httpSession,
+                         HttpServletRequest httpServletRequest,
                          Model model){
         System.out.println(fullName);
         System.out.println(email);
         System.out.println(userName);
         System.out.println(password);
         User user = new User();
+        user.setFullName(fullName);
         user.setUsername(userName);
         user.setPassword(password);
         user.setMail(email);
-        user.setPhone("13423");
+        user.setPhone(phoneNum);
+        user.setOrganization(organization);
+        System.out.println(type);
+        //System.out.println(User.userType.valueOf(httpServletRequest.getParameter("type")));
+        user.setType(User.userType.valueOf(type));
+        //user.setType(User.userType.valueOf(httpServletRequest.getParameter("type")));
         model.addAttribute("user", user);
         //user.setNickname("sdfsf");
         System.out.println(" sign up user, username: "+user.getUsername()+"  password: "+user.getPassword());
@@ -115,5 +128,28 @@ public class UserController {
             return "/login";
         }
         */
+    }
+
+    @PostMapping(value = {"/update"})
+    public String update(@RequestParam String fullName,
+                         @RequestParam String email,
+                         @RequestParam String username,
+                         @RequestParam String phoneNum,
+                         HttpSession httpSession,
+                         HttpServletRequest httpServletRequest,
+                         Model model) {
+        User user = (User)httpSession.getAttribute("user");
+        user.setFullName(fullName);
+        user.setMail(email);
+        user.setUsername(username);
+        user.setPhone(phoneNum);
+        model.addAttribute("user", user);
+        try{
+            userDao.saveAndFlush(user);
+        } catch (Exception e) {
+            model.addAttribute("message", "Username already exists! Update failed.");
+            return "update";
+        }
+        return "/myProfile";
     }
 }
