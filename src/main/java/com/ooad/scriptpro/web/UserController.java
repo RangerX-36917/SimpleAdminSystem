@@ -39,19 +39,25 @@ public class UserController {
                         @RequestParam String password,
                         HttpSession httpSession,
                         Model model){
-        System.out.println("call log in");
-        System.out.println(username+"  "+password);
+        //System.out.println("call log in");
+        //System.out.println(username+"  "+password);
         User tempuser = new User();
         tempuser.setPassword(password);
         tempuser.setUsername(username);
 
-        System.out.println("username: "+username+"  password: "+password);
+        //System.out.println("username: "+username+"  password: "+password);
         boolean verify = loginService.verifyLogin(tempuser);
         if(verify) {
             System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, username);
-            httpSession.setAttribute("user",userDao.findUserByUsername(username));
-            return "redirect:/userHome";
+            User user = userDao.findUserByUsername(username);
+            httpSession.setAttribute("user", user);
+            if(user.getType() == User.userType.ADMIN) {
+                System.out.println("is admin");
+                return "redirect:/adminHome";
+            }
+            else
+                return "redirect:/userHome";
         } else{
             System.out.println("fail");
             model.addAttribute("message","Invalid Credential");
@@ -92,30 +98,22 @@ public class UserController {
         System.out.println(email);
         System.out.println(userName);
         System.out.println(password);
-        User user = new User();
-        user.setFullName(fullName);
-        user.setUsername(userName);
-        user.setPassword(password);
-        user.setMail(email);
-        user.setPhone(phoneNum);
-        user.setOrganization(organization);
-        System.out.println(type);
-        //System.out.println(User.userType.valueOf(httpServletRequest.getParameter("type")));
-        user.setType(User.userType.valueOf(type));
-        //user.setType(User.userType.valueOf(httpServletRequest.getParameter("type")));
+        User user = setUser(fullName, email, userName, password, phoneNum, organization, type);
         model.addAttribute("user", user);
-        //user.setNickname("sdfsf");
         System.out.println(" sign up user, username: "+user.getUsername()+"  password: "+user.getPassword());
         try{
             signupService.signupUser(user);
             System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, userName);
             httpSession.setAttribute("user",userDao.findUserByUsername(userName));
-            return "redirect:/userHome";
+            if(user.getType() == User.userType.ADMIN)
+                return "redirect:/adminHome";
+            else
+                return "redirect:/userHome";
         } catch (Exception e){
             System.out.println("fail");
             e.printStackTrace();
-            model.addAttribute("message","User already exists!");
+            model.addAttribute("message","Username already exists!");
             return "signup";
         }
         /*
@@ -128,6 +126,18 @@ public class UserController {
             return "/login";
         }
         */
+    }
+
+    private User setUser(@RequestParam String fullName, @RequestParam String email, @RequestParam String userName, @RequestParam String password, @RequestParam String phoneNum, @RequestParam String organization, @RequestParam String type) {
+        User user = new User();
+        user.setFullName(fullName);
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setMail(email);
+        user.setPhone(phoneNum);
+        user.setOrganization(organization);
+        user.setType(User.userType.valueOf(type));
+        return user;
     }
 
     @PostMapping(value = {"/update"})
@@ -151,5 +161,35 @@ public class UserController {
             return "update";
         }
         return "/myProfile";
+    }
+
+    @PostMapping(value = {"/createUser"})
+    public String create(@RequestParam String fullName,
+                         @RequestParam String email,
+                         @RequestParam String userName,
+                         @RequestParam String password,
+                         @RequestParam String phoneNum,
+                         @RequestParam String organization,
+                         @RequestParam String type,
+                         Model model){
+        User user = setUser(fullName, email, userName, password, phoneNum, organization, type);
+        try{
+            signupService.signupUser(user);
+            return "redirect:/adminHome";
+        } catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("message","Username already exists!");
+            return "createUser";
+        }
+        /*
+        if(signupService.signupUser(user)){
+            System.out.println("success");
+            httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, userName);
+            return "/userHome";
+        } else{
+            System.out.println("fail");
+            return "/login";
+        }
+        */
     }
 }

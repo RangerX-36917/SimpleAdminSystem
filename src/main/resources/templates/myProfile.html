@@ -107,7 +107,9 @@
 
 <div class="px-content">
     <ol class="breadcrumb page-breadcrumb">
-        <li><a href="/userHome">Home</a></li>
+        <li th:if="${user.type.name() == 'ADMIN'}" ><a href="/adminHome">Home</a></li>
+        <li th:if="${user.type.name() == 'TEACHER'}"><a href="/userHome">Home</a></li>
+        <li th:if="${user.type.name() == 'STUDENT'}"><a href="/userHome">Home</a></li>
         <li class="active">My Scripts</li>
     </ol>
 

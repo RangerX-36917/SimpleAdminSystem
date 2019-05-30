@@ -20,7 +20,7 @@ public class PageController {
 
     @GetMapping(value = "/userHome")
     public String userHomeController(Model model,
-                                     HttpSession httpSession){
+                                     HttpSession httpSession) {
         User user = (User)httpSession.getAttribute("user");
         System.out.println("call userHomeController, username:"+user.getUsername());
         List<Script> topScripts = scriptService.getTopFivePopular();
@@ -29,8 +29,22 @@ public class PageController {
 //            System.out.println(script.getDescription());
 
         model.addAttribute("user",user);
-        model.addAttribute("topScripts",topScripts);
-        model.addAttribute("recentScripts",recentScripts);
+//        model.addAttribute("topScripts",topScripts);
+    //    model.addAttribute("recentScripts",recentScripts);
         return "userHome";
+    }
+    @GetMapping(value = {"/adminHome"})
+    public String adminHomeController(Model model,
+                                      HttpSession httpSession) {
+        User user = (User)httpSession.getAttribute("user");
+        List<User> users = userService.getUsersByOrg(user.getOrganization());
+        model.addAttribute("userList", users);
+        model.addAttribute("user", user);
+        return "adminHome";
+    }
+    @GetMapping(value = {"/createUser"})
+    public String createUserController(Model model,
+                                       HttpSession httpSession) {
+        return "createUser";
     }
 }
