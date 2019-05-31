@@ -1,10 +1,11 @@
 package com.cs316.SimpleAdminSys.web;
 
 import com.cs316.SimpleAdminSys.api.UserRepository;
+import com.cs316.SimpleAdminSys.model.User;
 import com.cs316.SimpleAdminSys.service.WebSecurityConfig;
 import com.cs316.SimpleAdminSys.service.auth.LoginService;
+import com.cs316.SimpleAdminSys.service.auth.PasswordAuthentication;
 import com.cs316.SimpleAdminSys.service.auth.SignupService;
-import com.cs316.SimpleAdminSys.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,43 +27,42 @@ public class UserController {
     public String login(@RequestParam String username,
                         @RequestParam String password,
                         HttpSession httpSession,
-                        Model model){
+                        Model model) {
 
         User tempuser = new User();
         tempuser.setPassword(password);
         tempuser.setUsername(username);
 
         boolean verify = loginService.verifyLogin(tempuser);
-        if(verify) {
+        if (verify) {
             System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, username);
             User user = userDao.findUserByUsername(username);
             httpSession.setAttribute("user", user);
-            if(user.getType() == User.userType.ADMIN) {
-                System.out.println("is admin");
+            if (user.getType() == User.userType.ADMIN) {
                 return "redirect:/adminHome";
-            }
-            else
+            } else
                 return "redirect:/userHome";
-        } else{
+        } else {
             System.out.println("fail");
-            model.addAttribute("message","Invalid Credential");
+            model.addAttribute("message", "Invalid Credential");
 
             return "login";
         }
 
     }
 
-    @GetMapping(value = {"/login","/login.html"})
-    public String signinControl(){
+    @GetMapping(value = {"/login", "/login.html"})
+    public String signinControl() {
         return "login";
     }
 
-    @GetMapping(value={"/signup","/signup.html"})
-    public String signupControl(){
+    @GetMapping(value = {"/signup", "/signup.html"})
+    public String signupControl() {
         return "signup";
     }
-    @GetMapping(value = {"/logout","/logout.html"})
+
+    @GetMapping(value = {"/logout", "/logout.html"})
     public String logout(HttpSession session) {
         session.removeAttribute(WebSecurityConfig.SESSION_KEY);
         return "redirect:/index";
@@ -78,27 +78,27 @@ public class UserController {
                          @RequestParam String type,
                          HttpSession httpSession,
                          HttpServletRequest httpServletRequest,
-                         Model model){
+                         Model model) {
         System.out.println(fullName);
         System.out.println(email);
         System.out.println(userName);
         System.out.println(password);
         User user = setUser(fullName, email, userName, password, phoneNum, organization, type);
         model.addAttribute("user", user);
-        System.out.println(" sign up user, username: "+user.getUsername()+"  password: "+user.getPassword());
-        try{
+        System.out.println(" sign up user, username: " + user.getUsername() + "  password: " + user.getPassword());
+        try {
             signupService.signupUser(user);
             System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, userName);
-            httpSession.setAttribute("user",userDao.findUserByUsername(userName));
-            if(user.getType() == User.userType.ADMIN)
+            httpSession.setAttribute("user", userDao.findUserByUsername(userName));
+            if (user.getType() == User.userType.ADMIN)
                 return "redirect:/adminHome";
             else
                 return "redirect:/userHome";
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("fail");
             e.printStackTrace();
-            model.addAttribute("message","Username already exists!");
+            model.addAttribute("message", "Username already exists!");
             return "signup";
         }
     }
@@ -123,13 +123,13 @@ public class UserController {
                          HttpSession httpSession,
                          HttpServletRequest httpServletRequest,
                          Model model) {
-        User user = (User)httpSession.getAttribute("user");
+        User user = (User) httpSession.getAttribute("user");
         user.setFullName(fullName);
         user.setMail(email);
         user.setUsername(username);
         user.setPhone(phoneNum);
         model.addAttribute("user", user);
-        try{
+        try {
             userDao.saveAndFlush(user);
         } catch (Exception e) {
             model.addAttribute("message", "Username already exists! Update failed.");
@@ -146,16 +146,53 @@ public class UserController {
                          @RequestParam String phoneNum,
                          @RequestParam String type,
                          HttpSession httpSession,
-                         Model model){
-        String organization = ((User)httpSession.getAttribute("user")).getOrganization();
+                         Model model) {
+        String organization = ((User) httpSession.getAttribute("user")).getOrganization();
         User user = setUser(fullName, email, userName, password, phoneNum, organization, type);
-        try{
+        try {
             signupService.signupUser(user);
             return "redirect:/adminHome";
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message","Username already exists!");
+            model.addAttribute("message", "Username already exists!");
             return "createUser";
         }
     }
+
+    @PostMapping(value = {"/changePassword"})
+    public String change(@RequestParam String oldPassword,
+                         @RequestParam String newPassword,
+                         @RequestParam String reNewPassword,
+                         HttpSession httpSession,
+                         Model model) {
+        User user = (User) httpSession.getAttribute("user");
+        PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
+        String correctPassword = userDao.findUserByUsername(user.getUsername()).getPassword();
+        System.out.println(user.getPassword());
+        if (!passwordAuthentication.authenticate(oldPassword.toCharArray(), correctPassword)) {
+            model.addAttribute("message", "Incorrect old password ");
+            return "changePassword";
+        }
+        System.out.println("1 " + newPassword);
+        System.out.println("2 " + reNewPassword);
+
+        if (newPassword.equals(reNewPassword)) {
+            user.setPassword(passwordAuthentication.hash(newPassword));
+            System.out.println("new pw: " + user.getPassword());
+            try {
+                userDao.saveAndFlush(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("message", "Change failed. Please try again. ");
+                return "changePassword";
+            }
+        } else {
+            model.addAttribute("message", "Two new passwords isn't the same. Please try again. ");
+            return "changePassword";
+        }
+        return "redirect:/myProfile";
+
+
+    }
+
 }

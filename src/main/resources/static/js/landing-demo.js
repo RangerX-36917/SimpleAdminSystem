@@ -1,160 +1,226 @@
 // Initialize Builder Demo
 //
 
-$(function() {
-  if (!$.support.transition) { return; }
-
-  var curStage = -1;
-  var _builderAnimationStarted = false;
-
-  function nextStage() {
-    var prevStage = curStage;
-
-    if (curStage >= stages.length - 1) {
-      curStage = 0;
-    } else {
-      curStage++;
+$(function () {
+    if (!$.support.transition) {
+        return;
     }
 
-    $('#landing-demo-builder')
-      .removeClass('stage' + prevStage)
-      .addClass('stage' + curStage);
+    var curStage = -1;
+    var _builderAnimationStarted = false;
 
-    stages[curStage]();
-  }
+    function nextStage() {
+        var prevStage = curStage;
 
-  function moveCursorTo(x, y) {
-    var dfr = $.Deferred();
+        if (curStage >= stages.length - 1) {
+            curStage = 0;
+        } else {
+            curStage++;
+        }
 
-    var pX = (x / 800) * 100;
-    var pY = (y / 578) * 100;
+        $('#landing-demo-builder')
+            .removeClass('stage' + prevStage)
+            .addClass('stage' + curStage);
 
-    $('#demo-builder-cursor')[0].style.left = pX + '%';
-    $('#demo-builder-cursor')[0].style.top = pY + '%';
+        stages[curStage]();
+    }
 
-    setTimeout(function() {
-      dfr.resolve();
-    }, 1000);
+    function moveCursorTo(x, y) {
+        var dfr = $.Deferred();
 
-    return dfr;
-  }
+        var pX = (x / 800) * 100;
+        var pY = (y / 578) * 100;
 
-  function makeClick() {
-    var dfr = $.Deferred();
+        $('#demo-builder-cursor')[0].style.left = pX + '%';
+        $('#demo-builder-cursor')[0].style.top = pY + '%';
 
-    $('#demo-builder-cursor-blink').addClass('blink');
+        setTimeout(function () {
+            dfr.resolve();
+        }, 1000);
 
-    setTimeout(function() {
-      $('#demo-builder-cursor-blink').removeClass('blink');
-      dfr.resolve();
-    }, 1000);
+        return dfr;
+    }
 
-    return dfr;
-  }
+    function makeClick() {
+        var dfr = $.Deferred();
 
-  function wait(delay) {
-    var dfr = $.Deferred();
+        $('#demo-builder-cursor-blink').addClass('blink');
 
-    setTimeout(function() {
-      dfr.resolve();
-    }, delay || 0);
+        setTimeout(function () {
+            $('#demo-builder-cursor-blink').removeClass('blink');
+            dfr.resolve();
+        }, 1000);
 
-    return dfr;
-  }
+        return dfr;
+    }
 
-  // Stages
+    function wait(delay) {
+        var dfr = $.Deferred();
 
-  var stages = [
-    function() {
-      wait(1000)
-        .then(function() { return moveCursorTo(534, 251); })
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-    function() {
-      moveCursorTo(545, 552)
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-    function() {
-      moveCursorTo(634, 120)
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(528, 172); })
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(377, 281); })
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(660, 381); })
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(522, 550); })
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-    function() {
-      moveCursorTo(275, 177)
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(313, 316); })
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(575, 316); })
-        .then(function() { return makeClick(); })
-        .then(function() { return moveCursorTo(522, 550); })
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-    function() {
-      moveCursorTo(532, 291)
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-    function() {
-      wait(5000)
-        .then(function() { nextStage(); });
-    },
-    function() {
-      // Empty stage to pause animation
-    },
-    function() {
-      moveCursorTo(675, 272)
-        .then(function() { return makeClick(); })
-        .then(function() { nextStage(); });
-    },
-  ];
+        setTimeout(function () {
+            dfr.resolve();
+        }, delay || 0);
 
-  // Repeat button
-  $('#demo-builder-repeat').on('click', function(e) {
-    e.preventDefault();
-    nextStage();
-  });
+        return dfr;
+    }
 
-  // Start
-  //
+    // Stages
 
-  var windowLoaded = false;
-  var framesLoaded = false;
+    var stages = [
+        function () {
+            wait(1000)
+                .then(function () {
+                    return moveCursorTo(534, 251);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            moveCursorTo(545, 552)
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            moveCursorTo(634, 120)
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(528, 172);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(377, 281);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(660, 381);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(522, 550);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            moveCursorTo(275, 177)
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(313, 316);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(575, 316);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    return moveCursorTo(522, 550);
+                })
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            moveCursorTo(532, 291)
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            wait(5000)
+                .then(function () {
+                    nextStage();
+                });
+        },
+        function () {
+            // Empty stage to pause animation
+        },
+        function () {
+            moveCursorTo(675, 272)
+                .then(function () {
+                    return makeClick();
+                })
+                .then(function () {
+                    nextStage();
+                });
+        },
+    ];
 
-  $('#demo-builder-window').on('load', function() { windowLoaded = true; });
-  $('#demo-builder-frames').on('load', function() { framesLoaded = true; });
-
-  // Ensure that images aren't already loaded
-  windowLoaded = windowLoaded ? windowLoaded : $('#demo-builder-window').hasClass('lazyloaded');
-  framesLoaded = framesLoaded ? framesLoaded : $('#demo-builder-frames').hasClass('lazyloaded');
-
-  function waitForImagesLoading(cb) {
-    if (windowLoaded && framesLoaded) { return cb(); }
-
-    setTimeout(waitForImagesLoading.bind(null, cb), 200);
-  }
-
-  // Add animation trigger
-  $('#landing-demo-builder').waypoint({
-    handler: function() {
-      waitForImagesLoading(function() {
-        if (_builderAnimationStarted) { return; }
-        $('#demo-builder-cursor').show();
+    // Repeat button
+    $('#demo-builder-repeat').on('click', function (e) {
+        e.preventDefault();
         nextStage();
-        _builderAnimationStarted = true;
-      });
-    },
-    offset: '25%',
-  });
+    });
+
+    // Start
+    //
+
+    var windowLoaded = false;
+    var framesLoaded = false;
+
+    $('#demo-builder-window').on('load', function () {
+        windowLoaded = true;
+    });
+    $('#demo-builder-frames').on('load', function () {
+        framesLoaded = true;
+    });
+
+    // Ensure that images aren't already loaded
+    windowLoaded = windowLoaded ? windowLoaded : $('#demo-builder-window').hasClass('lazyloaded');
+    framesLoaded = framesLoaded ? framesLoaded : $('#demo-builder-frames').hasClass('lazyloaded');
+
+    function waitForImagesLoading(cb) {
+        if (windowLoaded && framesLoaded) {
+            return cb();
+        }
+
+        setTimeout(waitForImagesLoading.bind(null, cb), 200);
+    }
+
+    // Add animation trigger
+    $('#landing-demo-builder').waypoint({
+        handler: function () {
+            waitForImagesLoading(function () {
+                if (_builderAnimationStarted) {
+                    return;
+                }
+                $('#demo-builder-cursor').show();
+                nextStage();
+                _builderAnimationStarted = true;
+            });
+        },
+        offset: '25%',
+    });
 
 });

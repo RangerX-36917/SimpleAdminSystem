@@ -1,7 +1,7 @@
-define("ace/snippets/lsl",["require","exports","module"], function(require, exports, module) {
-"use strict";
+define("ace/snippets/lsl", ["require", "exports", "module"], function (require, exports, module) {
+    "use strict";
 
-exports.snippetText = "snippet @\n\
+    exports.snippetText = "snippet @\n\
 	@${1:label};\n\
 snippet CAMERA_ACTIVE\n\
 	CAMERA_ACTIVE, ${1:integer isActive}, $0\n\
@@ -1234,14 +1234,14 @@ snippet while\n\
 		$0\n\
 	}\n\
 ";
-exports.scope = "lsl";
+    exports.scope = "lsl";
 
 });
-                (function() {
-                    window.require(["ace/snippets/lsl"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
+(function () {
+    window.require(["ace/snippets/lsl"], function (m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
             

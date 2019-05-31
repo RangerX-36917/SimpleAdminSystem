@@ -12,10 +12,10 @@ public class SignupService {
 
     private String message;
 
-    public boolean signupUser(User user){
-        try{
+    public boolean signupUser(User user) {
+        try {
             User _user = userRepository.findUserByUsername(user.getUsername());
-            if(_user == null){
+            if (_user == null) {
                 PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
                 String originalPassword = user.getPassword();
                 String hashedPassword = passwordAuthentication.hash(originalPassword.toCharArray());
@@ -24,23 +24,22 @@ public class SignupService {
                 setMessage("sign up success");
                 return true;
 
-            }
-            else{
+            } else {
                 setMessage("please use another username");
                 return false;
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             setMessage("unknown error");
             return false;
         }
     }
 
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message){
+    public void setMessage(String message) {
         this.message = message;
     }
 }

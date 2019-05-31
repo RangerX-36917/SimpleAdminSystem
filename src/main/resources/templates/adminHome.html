@@ -141,7 +141,8 @@
     <div class="container" align="center">
         <h2 th:text="'All Users in '+${user.organization}"></h2>
         <a href="/createUser">
-            <button type="button" width="20%" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Add Account</button>
+            <button type="button" width="20%" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Add Account
+            </button>
         </a>
         <table class="table table-striped">
             <thead>
@@ -162,8 +163,12 @@
                 <td th:text="${user.mail}"></td>
                 <td th:text="${user.type}"></td>
                 <td>
-                    <button type="button" class="btn btn-danger btn-outline" style="width: 80px" th:onclick="'javascript: deleteUser(' + ${user.id} + ')'">Delete</button>
-                    <button type="button" class="btn btn-primary btn-outline" style="width: 120px" th:onclick="'javascript: resetPassword(' + ${user.id} + ')'">Reset Password</button>
+                    <button type="button" class="btn btn-danger btn-outline" style="width: 80px"
+                            th:onclick="'javascript: deleteUser(' + ${user.id} + ')'">Delete
+                    </button>
+                    <button type="button" class="btn btn-primary btn-outline" style="width: 120px"
+                            th:onclick="'javascript: resetPassword(' + ${user.id} + ')'">Reset Password
+                    </button>
                 </td>
             </tr>
             </thead>
@@ -205,6 +210,7 @@
             window.location.href = delUrl;
         }
     }
+
     function resetPassword(id) {
         if (confirm("Are you sure to reset password?") === true) {
             delUrl = "/adminHome/resetPassword?uid=" + id;

@@ -3,9 +3,12 @@ package com.cs316.SimpleAdminSys.service;
 
 //import com.sun.deploy.net.HttpResponse;
 //import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +21,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public final static String SESSION_KEY = "username";
 
     @Bean
-    public SecurityInterceptor getSecurityInterceptor(){
+    public SecurityInterceptor getSecurityInterceptor() {
         return new SecurityInterceptor();
     }
 
-    public void addInterceptors(InterceptorRegistry registry){
+    public void addInterceptors(InterceptorRegistry registry) {
         InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
 
         addInterceptor.excludePathPatterns("/error");
@@ -56,7 +59,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         addInterceptor.addPathPatterns("/**");
     }
 
-    private class SecurityInterceptor extends HandlerInterceptorAdapter{
+    private class SecurityInterceptor extends HandlerInterceptorAdapter {
         @Override
         public boolean preHandle(HttpServletRequest request,
                                  HttpServletResponse response,
@@ -64,7 +67,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             HttpSession httpSession = request.getSession();
             //return true;
 
-            if(httpSession.getAttribute(SESSION_KEY) != null){
+            if (httpSession.getAttribute(SESSION_KEY) != null) {
                 return true;
             }
             System.out.println("session not found, redirect to log in");

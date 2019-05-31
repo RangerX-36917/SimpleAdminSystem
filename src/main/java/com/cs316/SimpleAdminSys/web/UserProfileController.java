@@ -19,7 +19,7 @@ public class UserProfileController {
     public String profileController(Model model,
                                     HttpSession httpSession) {
         User user = (User) httpSession.getAttribute("user");
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "myProfile";
     }
 
@@ -34,10 +34,18 @@ public class UserProfileController {
         userService.resetPasswordByID(uid);
         return "redirect:/adminHome";
     }
+
     @GetMapping(value = {"/update"})
     public String update(HttpSession httpSession,
                          Model model) {
         model.addAttribute("user", httpSession.getAttribute("user"));
         return "update";
+    }
+
+    @GetMapping(value = {"/changePassword"})
+    public String change(HttpSession httpSession,
+                         Model model) {
+        model.addAttribute("user", httpSession.getAttribute("user"));
+        return "changePassword";
     }
 }

@@ -7,11 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="adminSys" />
         <module name="SimpleAdminSys" />
         <module name="SUSTC" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="adminSys" target="1.8" />
       <module name="SimpleAdminSys" target="1.8" />
       <module name="SUSTC" target="1.8" />
     </bytecodeTargetLevel>
@@ -20,6 +22,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="SUSTC" options="-parameters" />
       <module name="SimpleAdminSys" options="-parameters" />
+      <module name="adminSys" options="-parameters" />
     </option>
   </component>
 </project>

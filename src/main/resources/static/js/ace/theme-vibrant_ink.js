@@ -1,8 +1,8 @@
-define("ace/theme/vibrant_ink",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
+define("ace/theme/vibrant_ink", ["require", "exports", "module", "ace/lib/dom"], function (require, exports, module) {
 
-exports.isDark = true;
-exports.cssClass = "ace-vibrant-ink";
-exports.cssText = ".ace-vibrant-ink .ace_gutter {\
+    exports.isDark = true;
+    exports.cssClass = "ace-vibrant-ink";
+    exports.cssText = ".ace-vibrant-ink .ace_gutter {\
 background: #1a1a1a;\
 color: #BEBEBE\
 }\
@@ -89,14 +89,14 @@ color: #99CC99\
 background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAEklEQVQImWNgYGBgYNDTc/oPAALPAZ7hxlbYAAAAAElFTkSuQmCC) right repeat-y\
 }";
 
-var dom = require("../lib/dom");
-dom.importCssString(exports.cssText, exports.cssClass);
+    var dom = require("../lib/dom");
+    dom.importCssString(exports.cssText, exports.cssClass);
 });
-                (function() {
-                    window.require(["ace/theme/vibrant_ink"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
+(function () {
+    window.require(["ace/theme/vibrant_ink"], function (m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
             

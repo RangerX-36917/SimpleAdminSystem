@@ -1,7 +1,7 @@
-define("ace/snippets/gobstones",["require","exports","module"], function(require, exports, module) {
-"use strict";
+define("ace/snippets/gobstones", ["require", "exports", "module"], function (require, exports, module) {
+    "use strict";
 
-exports.snippetText = "# Procedure\n\
+    exports.snippetText = "# Procedure\n\
 snippet proc\n\
 	procedure ${1?:name}(${2:argument}) {\n\
 		${3:// body...}\n\
@@ -36,14 +36,14 @@ snippet if\n\
     ${2:// body...}	\n\
   }\n\
 ";
-exports.scope = "gobstones";
+    exports.scope = "gobstones";
 
 });
-                (function() {
-                    window.require(["ace/snippets/gobstones"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
+(function () {
+    window.require(["ace/snippets/gobstones"], function (m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
             

@@ -1,7 +1,7 @@
-define("ace/snippets/r",["require","exports","module"], function(require, exports, module) {
-"use strict";
+define("ace/snippets/r", ["require", "exports", "module"], function (require, exports, module) {
+    "use strict";
 
-exports.snippetText = "snippet #!\n\
+    exports.snippetText = "snippet #!\n\
 	#!/usr/bin/env Rscript\n\
 \n\
 # includes\n\
@@ -123,14 +123,14 @@ snippet fte\n\
 snippet kvt \n\
 	kv.test(${1:x}, ${2:y})\n\
 ";
-exports.scope = "r";
+    exports.scope = "r";
 
 });
-                (function() {
-                    window.require(["ace/snippets/r"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
+(function () {
+    window.require(["ace/snippets/r"], function (m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
             

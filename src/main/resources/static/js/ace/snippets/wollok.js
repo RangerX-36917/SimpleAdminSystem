@@ -1,7 +1,7 @@
-define("ace/snippets/wollok",["require","exports","module"], function(require, exports, module) {
-"use strict";
+define("ace/snippets/wollok", ["require", "exports", "module"], function (require, exports, module) {
+    "use strict";
 
-exports.snippetText = "##\n\
+    exports.snippetText = "##\n\
 ## Basic Java packages and import\n\
 snippet im\n\
 	import\n\
@@ -86,14 +86,14 @@ snippet get\n\
 ## Terminate Methods or Loops\n\
 snippet re\n\
 	return";
-exports.scope = "wollok";
+    exports.scope = "wollok";
 
 });
-                (function() {
-                    window.require(["ace/snippets/wollok"], function(m) {
-                        if (typeof module == "object" && typeof exports == "object" && module) {
-                            module.exports = m;
-                        }
-                    });
-                })();
+(function () {
+    window.require(["ace/snippets/wollok"], function (m) {
+        if (typeof module == "object" && typeof exports == "object" && module) {
+            module.exports = m;
+        }
+    });
+})();
             

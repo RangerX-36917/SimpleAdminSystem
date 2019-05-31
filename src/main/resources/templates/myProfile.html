@@ -107,7 +107,7 @@
 
 <div class="px-content">
     <ol class="breadcrumb page-breadcrumb">
-        <li th:if="${user.type.name() == 'ADMIN'}" ><a href="/adminHome">Home</a></li>
+        <li th:if="${user.type.name() == 'ADMIN'}"><a href="/adminHome">Home</a></li>
         <li th:if="${user.type.name() == 'TEACHER'}"><a href="/userHome">Home</a></li>
         <li th:if="${user.type.name() == 'STUDENT'}"><a href="/userHome">Home</a></li>
         <li class="active">My Scripts</li>
@@ -116,7 +116,7 @@
     <div class="page-header">
         <div class="row">
             <div class="col-md-4 text-xs-center text-md-left text-nowrap">
-                <h1><i class="page-header-icon ion-android-globe"></i>My Scripts</h1>
+                <h1><i class="page-header-icon ion-android-globe"></i>My Profile</h1>
             </div>
 
             <hr class="page-wide-block visible-xs visible-sm">
@@ -136,16 +136,22 @@
             <br>
             <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Username:  '+${user.username}"></a>
             <br>
-            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Organization:  '+${user.organization}"></a>
+            <a class="pull-xs-left font-weight-semibold font-size-24"
+               th:text="'Organization:  '+${user.organization}"></a>
             <br>
             <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'Phone Number:  '+${user.phone}"></a>
             <br>
             <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'E-mail:  '+${user.mail}"></a>
             <br>
-            <a class="pull-xs-left font-weight-semibold font-size-24" th:text="'User Type:  '+${user.type.toString()}"></a>
+            <a class="pull-xs-left font-weight-semibold font-size-24"
+               th:text="'User Type:  '+${user.type.toString()}"></a>
             <br>
             <a href="/update">
-                <button type="button" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Update My Profile</button>
+                <button type="button" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Update My Profile
+                </button>
+            </a>
+            <a href="/changePassword">
+                <button type="button" class="btn btn-block btn-lg btn-primary m-t-3 bg-primary">Change Password</button>
             </a>
         </div>
 
@@ -153,7 +159,6 @@
     </div>
 
 </div>
-
 
 
 <footer class="px-footer px-footer-bottom p-t-0">
@@ -186,7 +191,7 @@
     $(function () {
         // $('.header').load("header.html");
         $('.sidebar').load("sidebar.html");
-        
+
         var file = String(document.location).split('/').pop();
 
         // Remove unnecessary file parts

@@ -1,8 +1,8 @@
 package com.cs316.SimpleAdminSys.service;
 
 import com.cs316.SimpleAdminSys.api.UserRepository;
-import com.cs316.SimpleAdminSys.service.auth.PasswordAuthentication;
 import com.cs316.SimpleAdminSys.model.User;
+import com.cs316.SimpleAdminSys.service.auth.PasswordAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 

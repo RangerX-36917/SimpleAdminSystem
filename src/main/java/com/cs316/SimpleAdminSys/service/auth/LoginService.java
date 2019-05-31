@@ -10,7 +10,7 @@ public class LoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean verifyLogin(User user){
+    public boolean verifyLogin(User user) {
         PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
         User db_user = userRepository.findUserByUsername(user.getUsername());
         String token = db_user.getPassword();
