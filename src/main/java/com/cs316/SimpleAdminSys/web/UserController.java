@@ -35,7 +35,6 @@ public class UserController {
 
         boolean verify = loginService.verifyLogin(tempuser);
         if (verify) {
-            System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, username);
             User user = userDao.findUserByUsername(username);
             httpSession.setAttribute("user", user);
@@ -44,7 +43,6 @@ public class UserController {
             } else
                 return "redirect:/userHome";
         } else {
-            System.out.println("fail");
             model.addAttribute("message", "Invalid Credential");
 
             return "login";
@@ -79,16 +77,11 @@ public class UserController {
                          HttpSession httpSession,
                          HttpServletRequest httpServletRequest,
                          Model model) {
-        System.out.println(fullName);
-        System.out.println(email);
-        System.out.println(userName);
-        System.out.println(password);
+
         User user = setUser(fullName, email, userName, password, phoneNum, organization, type);
         model.addAttribute("user", user);
-        System.out.println(" sign up user, username: " + user.getUsername() + "  password: " + user.getPassword());
         try {
             signupService.signupUser(user);
-            System.out.println("success");
             httpSession.setAttribute(WebSecurityConfig.SESSION_KEY, userName);
             httpSession.setAttribute("user", userDao.findUserByUsername(userName));
             if (user.getType() == User.userType.ADMIN)
@@ -96,7 +89,6 @@ public class UserController {
             else
                 return "redirect:/userHome";
         } catch (Exception e) {
-            System.out.println("fail");
             e.printStackTrace();
             model.addAttribute("message", "Username already exists!");
             return "signup";
@@ -168,17 +160,12 @@ public class UserController {
         User user = (User) httpSession.getAttribute("user");
         PasswordAuthentication passwordAuthentication = new PasswordAuthentication();
         String correctPassword = userDao.findUserByUsername(user.getUsername()).getPassword();
-        System.out.println(user.getPassword());
         if (!passwordAuthentication.authenticate(oldPassword.toCharArray(), correctPassword)) {
             model.addAttribute("message", "Incorrect old password ");
             return "changePassword";
         }
-        System.out.println("1 " + newPassword);
-        System.out.println("2 " + reNewPassword);
-
         if (newPassword.equals(reNewPassword)) {
             user.setPassword(passwordAuthentication.hash(newPassword));
-            System.out.println("new pw: " + user.getPassword());
             try {
                 userDao.saveAndFlush(user);
             } catch (Exception e) {

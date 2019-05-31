@@ -1,9 +1,4 @@
 package com.cs316.SimpleAdminSys.service;
-
-
-//import com.sun.deploy.net.HttpResponse;
-//import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -31,7 +26,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/login");
         addInterceptor.excludePathPatterns("/userLogin");
-        //addInterceptor.excludePathPatterns("/userHome");
         addInterceptor.excludePathPatterns("/signup");
         addInterceptor.excludePathPatterns("/userSignup");
         // api test
@@ -40,9 +34,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         addInterceptor.excludePathPatterns("/topPopular");
         addInterceptor.excludePathPatterns("/topLatest");
         addInterceptor.excludePathPatterns("/upload");
-        addInterceptor.excludePathPatterns("/uploadscript");
         addInterceptor.excludePathPatterns("/run");
-        addInterceptor.excludePathPatterns("/getScript");
         addInterceptor.excludePathPatterns("/vagueSearch");
         addInterceptor.excludePathPatterns("/getContent");
         // Welcome page
@@ -70,7 +62,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             if (httpSession.getAttribute(SESSION_KEY) != null) {
                 return true;
             }
-            System.out.println("session not found, redirect to log in");
             String url = "/login";
             response.sendRedirect(url);
             return false;

@@ -33,7 +33,7 @@ public class PageController {
         if (user.getType() == User.userType.ADMIN) {
             return "redirect:/adminHome";
         } else
-            return "redirect:/userHome";
+            return "userHome";
     }
 
     @GetMapping(value = {"/createUser"})
